@@ -134,11 +134,19 @@ border: 1px solid rgba(255, 255, 255, 0.08~0.12);
 border-radius: 12px;
 ```
 
-### 토글 스위치
+### 토글 스위치 (3종)
 ```
-크기: 32x18px (일반) / 24x14px (서브스킬)
-OFF: surface-3 배경
-ON:  accent (#38bdf8) 배경 + 원형 노브 translateX
+일반 스킬:   32x18px   OFF=surface-3, ON=accent
+서브스킬:    24x14px   OFF=surface-3, ON=accent
+단계 토글:   32x18px   OFF=surface-3, PARTIAL=accent 40%, ON=accent
+```
+
+### 사이드바 컨트롤
+```
+전체 펼치기/접기 버튼: surface-1 배경, 10px 폰트, 호버 시 surface-2
+안내 문구: accent 색상, opacity 0.7, 하단 보더
+아코디언 열림 상태: 스킬 토글 시에도 유지 (sbOpenState 객체로 관리)
+초기 상태: 모든 단계 접힘
 ```
 
 ### 8단계 빠른 선택 버튼 (3상태)
@@ -148,16 +156,46 @@ ON:  accent (#38bdf8) 배경 + 원형 노브 translateX
 전체선택: rgba(색, 0.15) 배경, 실색 보더 2px, box-shadow 글로우, scale(1.03)
 ```
 
-### 네비바 코칭 시작 버튼
+### 네비바 버튼
 ```
-비활성: rgba(255,255,255,0.08) 배경, text-disabled 색상
-활성:   linear-gradient(135deg, #0284c7, #38bdf8), 글로우 애니메이션
+코칭 시작 (비활성): rgba(255,255,255,0.08) 배경, text-disabled 색상
+코칭 시작 (활성):   linear-gradient(135deg, #0284c7, #38bdf8), 글로우 애니메이션
+리셋 버튼:          rgba(239,68,68,0.08) 배경, 레드 보더, 호버 시 강조
 ```
 
 ### 패키지 버튼 (pill)
 ```
 기본: surface-1 배경, border 1px solid
 활성: accent 0.15 배경, accent 보더, accent 텍스트
+```
+
+### 히어로 줌 버튼 (플로팅)
+```
+position: fixed, bottom-right
+배경: rgba(20,25,38,0.85) + backdrop-filter blur
+border-radius: 9999px (pill)
+A- / 퍼센트 / A+ 구성
+```
+
+---
+
+## 줌 시스템
+
+### 방식: transform scale (전체 페이지 균일)
+```css
+#zoomWrap {
+    transform-origin: top left;
+    transform: scale(var);
+    width: calc(100% / scale);
+}
+```
+
+### 컨트롤
+```
+A- / A+ 버튼: 네비바 (대시보드) + 플로팅 (히어로)
+Ctrl + 마우스 휠: window capture 단계에서 선점
+범위: 80% ~ 150% (10% 단위)
+레벨 표시: 네비바 + 히어로 동기화
 ```
 
 ---
@@ -172,11 +210,9 @@ ON:  accent (#38bdf8) 배경 + 원형 노브 translateX
 
 ### 키프레임
 ```css
-fadeUp:      translateY(16px) → 0, opacity 0 → 1  (0.4s spring)
-pulse-glow:  box-shadow 8px → 24px → 8px          (2.5s infinite)
-float-glow:  translateY(0) → -10px, drop-shadow    (4s infinite, 히어로 이미지)
-neon-wave:   background-position shift              (3s infinite, 타이틀 글로우)
-border-shift: background-position shift             (6s infinite, 이미지 링)
+fadeUp:       translateY(16px) -> 0, opacity 0 -> 1  (0.4s spring)
+pulse-glow:   box-shadow 8px -> 24px -> 8px          (2.5s infinite)
+border-shift: background-position shift               (6s infinite, 이미지 링)
 ```
 
 ### 접근성
@@ -193,27 +229,47 @@ border-shift: background-position shift             (6s infinite, 이미지 링)
 
 ## 레이아웃
 
+### 전체 구조
+```
+<body>
+  <div id="zoomWrap">         <!-- transform: scale() 줌 래퍼 -->
+    <nav class="topnav">      <!-- sticky top, 45px, z-index:50 -->
+    <div class="hero-page">   <!-- 첫 화면 -->
+    <div class="dashboard-page"> <!-- 대시보드 -->
+  </div>
+</body>
+```
+
 ### 대시보드 페이지 (2열)
 ```
-┌─ 네비바 (sticky top, 45px, z-index:50) ─────────┐
-│ 로고 | 홈 | 스킬 | spacer | 줌 | 디바이스 | API | 코칭시작 │
-└──────────────────────────────────────────────────┘
-┌─ 사이드바 (280px, sticky) ─┐ ┌─ 메인 (flex:1, sticky) ─┐
-│ 개별 스킬 65개              │ │ 8단계 빠른 선택           │
-│ (8단계 아코디언)            │ │ 추천 패키지               │
-│                             │ │ 선택된 스킬 목록           │
-└─────────────────────────────┘ └──────────────────────────┘
+┌─ 네비바 (sticky top, 45px, z-index:50) ──────────────┐
+│ 로고|홈|스킬|spacer|줌|디바이스|API|리셋|선택N개|코칭시작 │
+└───────────────────────────────────────────────────────┘
+┌─ 사이드바 (280px, sticky) ─┐ ┌─ 메인 (flex:1, sticky) ──┐
+│ 전체 펼치기/접기             │ │ 8단계 빠른 선택            │
+│ 안내 문구                    │ │ 추천 패키지                │
+│ 개별 스킬 65개               │ │ 선택된 스킬 목록           │
+│ (8단계 아코디언+단계토글)     │ │                            │
+└──────────────────────────────┘ └───────────────────────────┘
 ```
 
 ### 히어로 페이지 (중앙 정렬)
 ```
-뱃지 → 타이틀 → 부제 → CTA 버튼 → 이미지 → API 입력 → 링크
+뱃지 -> 타이틀 -> 부제 -> CTA 버튼 -> 이미지 -> API 입력 -> 링크
 max-width: 800px, text-align: center
+플로팅 줌 버튼 (우측 하단)
+```
+
+### 디바이스 프리뷰 (dash-main 전체 적용)
+```
+Desktop:  제한 없음 (max-width: 1600px)
+Tablet:   max-width: 768px, 중앙 정렬, 보더
+Phone:    max-width: 390px, 사이드바 세로 배치, 보더
 ```
 
 ### 반응형
 ```
-< 600px:  사이드바 전체폭, 메인 아래로
+< 600px:  사이드바 전체폭, 메인 아래로 (세로 배치)
 > 600px:  2열 병렬 (사이드바 280px + 메인 flex:1)
 > 1200px: 사이드바 280px (변동 없음)
 ```
@@ -225,7 +281,7 @@ max-width: 800px, text-align: center
 ```css
 배경: rgba(0,0,0,0.6) + backdrop-filter: blur(6px)
 콘텐츠: bg-raised, border, radius-xl, max-width 560~700px
-애니메이션: slideUp (0.4s spring)
+애니메이션: fadeUp (0.4s spring)
 ```
 
 종류:
@@ -233,16 +289,6 @@ max-width: 800px, text-align: center
 - 8단계 여정 타임라인
 - 결과물 샘플 목록
 - 개별 샘플 상세 보기
-
----
-
-## 글자 크기 조절 (줌)
-
-```css
-:root { --zoom: 1; }
-html { font-size: calc(14px * var(--zoom)); }
-```
-`A-` / `A+` 버튼으로 80%~150% 범위 조절 (10% 단위)
 
 ---
 
