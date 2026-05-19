@@ -19,7 +19,7 @@
   --text-primary:#eef2ff;--text-secondary:#b8c5d6;--text-muted:#8899ae;--text-disabled:rgba(255,255,255,0.30);
   --green:#22c55e;--blue:#3b82f6;--amber:#f59e0b;--red:#ef4444;
   --green-rgb:34,197,94;--blue-rgb:59,130,246;--amber-rgb:245,158,11;--red-rgb:239,68,68;
-  --accent:#8b5cf6;--accent-dark:#7c6ef0;--accent-light:#a78bfa;--accent-rgb:139,92,246;
+  --accent:#38bdf8;--accent-dark:#0284c7;--accent-light:#7dd3fc;--accent-rgb:56,189,248;
   --cat-diagnosis:#6366f1;--cat-core:#8b5cf6;--cat-applied:#ec4899;--cat-prescription:#22c55e;
   --cat-meta:#f59e0b;--cat-data:#06b6d4;--cat-foresight:#f97316;
   --cat-diagnosis-rgb:99,102,241;--cat-core-rgb:139,92,246;--cat-applied-rgb:236,72,153;
@@ -60,32 +60,80 @@ body{font-family:var(--font-ui);background:var(--bg-void);color:var(--text-prima
 .nav-btn{padding:var(--space-1) var(--space-2);border-radius:var(--radius-sm);font-size:12px;color:var(--text-secondary);cursor:pointer;transition:all var(--duration-fast);border:var(--border-thin) solid transparent;background:none;font-family:var(--font-ui);display:flex;align-items:center;gap:4px}
 .nav-btn:hover{background:var(--surface-2);color:var(--text-primary)}
 .nav-btn.active{background:rgba(var(--accent-rgb),0.15);color:var(--accent);border-color:rgba(var(--accent-rgb),0.25)}
+.nav-home{padding:var(--space-1) var(--space-3);border-radius:var(--radius-sm);font-size:12px;font-weight:600;color:var(--text-secondary);cursor:pointer;transition:all var(--duration-fast);border:var(--border-thin) solid transparent;background:none;font-family:var(--font-ui);display:flex;align-items:center;gap:4px}
+.nav-home:hover{background:rgba(56,189,248,0.12);color:#38bdf8;border-color:rgba(56,189,248,0.2)}
+.device-toggle{display:flex;gap:2px;background:rgba(0,0,0,0.45);backdrop-filter:blur(10px);border-radius:24px;padding:3px;border:1px solid rgba(255,255,255,0.08)}
+.dt-btn{width:32px;height:32px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;background:transparent;color:rgba(255,255,255,0.35);transition:all 0.2s}
+.dt-btn:hover{color:rgba(255,255,255,0.65)}
+.dt-btn.active{background:var(--accent);color:#fff;box-shadow:0 0 12px rgba(var(--accent-rgb),0.4)}
+.dt-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .nav-divider{width:1px;height:20px;background:var(--border);margin:0 var(--space-2)}
 .api-status{width:8px;height:8px;border-radius:50%;background:var(--red);border:var(--border-medium) solid var(--bg-raised)}
 .api-status.connected{background:var(--green);animation:pulse-glow 2.5s ease infinite}
+/* Nav Coaching */
+.nav-coaching{display:flex;align-items:center;gap:var(--space-2)}
+.nav-badge{font-size:11px;font-weight:700;color:var(--accent);background:rgba(var(--accent-rgb),0.12);padding:2px 10px;border-radius:var(--radius-full);transition:all var(--duration-normal)}
+.nav-badge.has-skills{background:rgba(var(--accent-rgb),0.20);box-shadow:0 0 8px rgba(var(--accent-rgb),0.15)}
+.nav-start-btn{padding:var(--space-1) var(--space-4);border-radius:var(--radius-md);font-size:12px;font-weight:700;border:none;cursor:pointer;font-family:var(--font-ui);transition:all var(--duration-normal);background:rgba(255,255,255,0.08);color:var(--text-disabled)}
+.nav-start-btn:disabled{cursor:not-allowed;opacity:0.5}
+.nav-start-btn:not(:disabled){background:linear-gradient(135deg,#0284c7,#38bdf8);color:#fff;box-shadow:0 0 16px rgba(56,189,248,0.3);animation:pulse-glow 2.5s ease infinite}
+.nav-start-btn:not(:disabled):hover{transform:translateY(-1px);box-shadow:0 0 24px rgba(56,189,248,0.45)}
 
 /* ===== HERO PAGE ===== */
-.hero-page{min-height:100vh;display:flex;flex-direction:column;align-items:center;background:radial-gradient(ellipse at 50% 20%,rgba(210,170,90,0.10) 0%,rgba(180,130,60,0.04) 40%,transparent 70%),var(--bg-void)}
-.hero-section{text-align:center;padding:var(--space-12) var(--space-6) var(--space-8);max-width:800px;animation:fadeUp var(--duration-slow) var(--ease-spring)}
-.hero-img{width:300px;height:300px;border-radius:var(--radius-xl);object-fit:cover;margin:0 auto var(--space-6);display:block;box-shadow:0 8px 40px rgba(0,0,0,0.5),0 0 80px rgba(210,170,90,0.20),0 0 120px rgba(180,130,60,0.08);border:var(--border-thick) solid rgba(210,170,90,0.35);animation:float 4s ease-in-out infinite}
-.hero-title{font-size:clamp(28px,5vw,42px);font-weight:800;line-height:1.2;margin-bottom:var(--space-3);background:linear-gradient(135deg,#d4a853,#f0d48a,#c8a050);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero-subtitle{font-size:clamp(14px,2vw,18px);color:#c8b89a;margin-bottom:var(--space-8)}
-.hero-cta{display:flex;gap:var(--space-3);justify-content:center;flex-wrap:wrap;margin-bottom:var(--space-8)}
+.hero-page{min-height:100vh;display:flex;flex-direction:column;align-items:center;position:relative;overflow:hidden;background:var(--bg-void)}
+.hero-page::before{content:'';position:absolute;top:-20%;left:50%;transform:translateX(-50%);width:140%;height:70%;background:radial-gradient(ellipse,rgba(56,189,248,0.08) 0%,rgba(99,102,241,0.04) 40%,transparent 70%);pointer-events:none;z-index:0}
+.hero-page::after{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='30' cy='30' r='0.5' fill='rgba(56,189,248,0.12)'/%3E%3C/svg%3E");pointer-events:none;z-index:0}
+.hero-section{text-align:center;padding:var(--space-10) var(--space-6) var(--space-6);max-width:800px;animation:fadeUp var(--duration-slow) var(--ease-spring);position:relative;z-index:1}
+.hero-img-wrap{position:relative;display:inline-block;margin-bottom:var(--space-6)}
+/* Outer ring */
+.hero-img-wrap::before{content:'';position:absolute;inset:-10px;border-radius:24px;background:linear-gradient(135deg,rgba(56,189,248,0.25),rgba(99,102,241,0.15),rgba(56,189,248,0.20));background-size:300% 300%;animation:border-shift 6s ease infinite;z-index:0}
+/* Inner ring (gap between outer and image) */
+.hero-img-wrap::after{content:'';position:absolute;inset:-5px;border-radius:21px;background:var(--bg-void);z-index:1}
+@keyframes border-shift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.hero-img{width:260px;height:260px;border-radius:18px;object-fit:cover;display:block;position:relative;z-index:2;animation:float-glow 4s ease-in-out infinite;transition:transform 0.4s var(--ease-spring)}
+.hero-img-wrap:hover .hero-img{transform:scale(1.05)}
+@keyframes float-glow{0%,100%{transform:translateY(0);filter:drop-shadow(0 8px 32px rgba(56,189,248,0.15))}50%{transform:translateY(-10px);filter:drop-shadow(0 20px 48px rgba(56,189,248,0.35))}}
+.hero-badge{display:inline-block;padding:var(--space-1) var(--space-4);border-radius:var(--radius-full);background:rgba(56,189,248,0.10);border:var(--border-thin) solid rgba(56,189,248,0.25);font-size:11px;font-weight:600;color:#38bdf8;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:var(--space-4)}
+.hero-title{font-size:clamp(30px,5.5vw,48px);font-weight:800;line-height:1.15;margin-bottom:var(--space-4);color:rgba(255,255,255,0.85);text-shadow:0 0 40px rgba(56,189,248,0.08)}
+.hero-title em{font-style:normal;position:relative;background:linear-gradient(90deg,#0ea5e9,#7dd3fc,#38bdf8,#bae6fd,#0ea5e9);background-size:300% 100%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:neon-wave 3s ease infinite;filter:drop-shadow(0 0 8px rgba(56,189,248,0.6)) drop-shadow(0 0 20px rgba(56,189,248,0.4)) drop-shadow(0 0 50px rgba(56,189,248,0.25)) drop-shadow(0 0 90px rgba(56,189,248,0.12))}
+.hero-title em::before{content:'비전';position:absolute;left:0;top:0;color:transparent;-webkit-text-fill-color:transparent;filter:blur(24px);background:linear-gradient(90deg,#38bdf8,#bae6fd,#38bdf8);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;animation:neon-wave 3s ease infinite;z-index:-1;opacity:0.7}
+.hero-title .comma{-webkit-text-fill-color:rgba(255,255,255,0.7);color:rgba(255,255,255,0.7)}
+@keyframes neon-wave{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@keyframes rays{0%,100%{opacity:0.4;transform:translate(-50%,-50%) scale(1)}50%{opacity:0.7;transform:translate(-50%,-50%) scale(1.15)}}
+.hero-title-line{display:block;font-size:clamp(16px,2.5vw,22px);font-weight:400;color:rgba(255,255,255,0.4);margin-top:var(--space-2);letter-spacing:0.2em;text-shadow:none}
+.hero-subtitle{font-size:clamp(14px,2vw,17px);color:rgba(255,255,255,0.55);margin-bottom:var(--space-8);line-height:1.7}
+.hero-cta{display:flex;gap:var(--space-3);justify-content:center;flex-wrap:wrap;margin-bottom:var(--space-6)}
+/* Hero API compact */
+.hero-api-compact{display:flex;align-items:center;gap:var(--space-2);justify-content:center;margin-bottom:var(--space-5);position:relative;z-index:1}
+.hero-api-label{font-size:12px;font-weight:600;color:rgba(255,255,255,0.5);white-space:nowrap}
+.hero-api-input{width:200px;padding:var(--space-1) var(--space-3);background:rgba(255,255,255,0.05);border:var(--border-thin) solid rgba(255,255,255,0.12);border-radius:var(--radius-sm);color:var(--text-primary);font-size:12px;font-family:var(--font-code);outline:none;transition:all var(--duration-normal)}
+.hero-api-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(var(--accent-rgb),0.10)}
+.hero-api-save{padding:var(--space-1) var(--space-3);background:linear-gradient(135deg,#0284c7,#38bdf8);color:#fff;border:none;border-radius:var(--radius-sm);font-size:11px;font-weight:600;cursor:pointer;font-family:var(--font-ui);transition:all var(--duration-fast)}
+.hero-api-save:hover{transform:translateY(-1px);box-shadow:0 0 12px rgba(56,189,248,0.3)}
+.hero-api-help{width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,0.06);border:var(--border-thin) solid rgba(255,255,255,0.12);color:var(--text-muted);font-size:11px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:var(--font-ui);transition:all var(--duration-fast)}
+.hero-api-help:hover{background:rgba(var(--accent-rgb),0.12);color:var(--accent);border-color:rgba(var(--accent-rgb),0.25)}
+/* Hero links */
+.hero-links{display:flex;align-items:center;justify-content:center;gap:var(--space-3);margin-bottom:var(--space-8);position:relative;z-index:1}
+.hero-link-btn{background:none;border:none;color:rgba(255,255,255,0.45);font-size:13px;font-weight:500;cursor:pointer;font-family:var(--font-ui);transition:all var(--duration-fast);padding:var(--space-1) var(--space-2)}
+.hero-link-btn:hover{color:#7dd3fc;text-shadow:0 0 12px rgba(56,189,248,0.3)}
+.hero-link-dot{color:rgba(255,255,255,0.2)}
 .btn-hero{padding:var(--space-3) var(--space-8);border-radius:var(--radius-md);font-size:15px;font-weight:600;cursor:pointer;transition:all var(--duration-normal);font-family:var(--font-ui);border:none}
-.btn-hero.primary{background:linear-gradient(135deg,#b8892e,#d4a853);color:#fff;box-shadow:0 0 24px rgba(210,170,90,0.25)}
-.btn-hero.primary:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg),0 0 32px rgba(210,170,90,0.35)}
-.btn-hero.secondary{background:rgba(210,170,90,0.10);color:#d4a853;border:var(--border-thin) solid rgba(210,170,90,0.25)}
-.btn-hero.secondary:hover{background:rgba(210,170,90,0.18)}
+.btn-hero.primary{background:linear-gradient(135deg,#0284c7,#38bdf8);color:#fff;box-shadow:0 0 24px rgba(56,189,248,0.25)}
+.btn-hero.primary:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg),0 0 32px rgba(56,189,248,0.35)}
+.btn-hero.secondary{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.7);border:var(--border-thin) solid rgba(255,255,255,0.15)}
+.btn-hero.secondary:hover{background:rgba(255,255,255,0.10);color:#fff}
 
 /* API Key Card */
-.api-card{max-width:560px;width:100%;margin:0 auto var(--space-8);background:rgba(210,170,90,0.04);backdrop-filter:blur(16px);border:var(--border-thin) solid rgba(210,170,90,0.15);border-radius:var(--radius-lg);padding:var(--space-5);text-align:left;animation:fadeUp var(--duration-slow) var(--ease-spring) 0.1s both}
-.api-card h3{font-size:14px;font-weight:600;margin-bottom:var(--space-3);display:flex;align-items:center;gap:var(--space-2);color:#e8d0a0}
-.api-card p{font-size:12px;color:#b8a88a;margin-bottom:var(--space-3)}
+.api-card{max-width:560px;width:100%;margin:0 auto var(--space-8);background:rgba(255,255,255,0.03);backdrop-filter:blur(16px);border:var(--border-thin) solid rgba(255,255,255,0.08);border-radius:var(--radius-lg);padding:var(--space-5);text-align:left;animation:fadeUp var(--duration-slow) var(--ease-spring) 0.1s both;position:relative;z-index:1}
+.api-card h3{font-size:14px;font-weight:600;margin-bottom:var(--space-3);display:flex;align-items:center;gap:var(--space-2);color:#bae6fd}
+.api-card p{font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:var(--space-3)}
 .api-input-row{display:flex;gap:var(--space-2)}
 .api-input{flex:1;padding:var(--space-2) var(--space-3);background:var(--surface-1);border:var(--border-thin) solid var(--border);border-radius:var(--radius-sm);color:var(--text-primary);font-size:13px;font-family:var(--font-code);outline:none;transition:all var(--duration-normal)}
 .api-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(var(--accent-rgb),0.10)}
-.api-save-btn{padding:var(--space-2) var(--space-4);background:linear-gradient(135deg,#b8892e,#d4a853);color:#fff;border:none;border-radius:var(--radius-sm);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font-ui)}
-.api-help-btn{font-size:11px;color:#d4a853;cursor:pointer;background:none;border:none;font-family:var(--font-ui);text-decoration:underline;margin-top:var(--space-2);display:inline-block}
+.api-save-btn{padding:var(--space-2) var(--space-4);background:linear-gradient(135deg,#0284c7,#38bdf8);color:#fff;border:none;border-radius:var(--radius-sm);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font-ui)}
+.api-help-btn{font-size:11px;color:rgba(56,189,248,0.8);cursor:pointer;background:none;border:none;font-family:var(--font-ui);text-decoration:none;margin-top:var(--space-2);display:inline-flex;align-items:center;gap:6px;padding:var(--space-1) 0;transition:color var(--duration-fast)}
+.api-help-btn:hover{color:#38bdf8}
+.api-help-btn .chevron.open{transform:rotate(90deg)}
 
 /* API Help Modal */
 .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);z-index:100;display:none;align-items:center;justify-content:center}
@@ -96,43 +144,60 @@ body{font-family:var(--font-ui);background:var(--bg-void);color:var(--text-prima
 .modal-content code{background:var(--surface-2);padding:2px 6px;border-radius:var(--radius-sm);font-family:var(--font-code);font-size:12px}
 .modal-close{position:absolute;top:var(--space-4);right:var(--space-4);font-size:18px;color:var(--text-muted);cursor:pointer;background:none;border:none}
 
-/* 8-Stage Preview */
-.hero-stages{max-width:900px;width:100%;margin:0 auto var(--space-8);padding:0 var(--space-6)}
-.hero-stages h2{font-size:18px;font-weight:700;text-align:center;margin-bottom:var(--space-4);color:#e8d0a0}
-.stage-timeline{display:flex;align-items:flex-start;gap:0;overflow-x:auto;padding:var(--space-4) 0}
-.stage-dot{display:flex;flex-direction:column;align-items:center;min-width:100px;flex:1;position:relative}
-.stage-dot::after{content:'';position:absolute;top:18px;left:calc(50% + 18px);width:calc(100% - 36px);height:2px;background:linear-gradient(90deg,#d4a853,rgba(210,170,90,0.2))}
-.stage-dot:last-child::after{display:none}
-.stage-circle{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#b8892e,#d4a853);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;margin-bottom:var(--space-2);position:relative;z-index:1}
-.stage-dot-label{font-size:10px;color:#b8a88a;text-align:center;line-height:1.3}
+/* 8-Stage Preview — 4x2 Grid with arrows */
+.hero-stages{max-width:100%;width:100%;margin:var(--space-6) auto 0;padding:0;position:relative;z-index:1}
+.hero-stages h2{font-size:13px;font-weight:600;text-align:center;margin-bottom:var(--space-5);color:rgba(56,189,248,0.5);letter-spacing:0.15em;text-transform:uppercase}
+.stage-timeline{display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;gap:var(--space-2) 0;padding:0;align-items:center}
+.stage-dot{display:flex;align-items:center;gap:6px;padding:8px 10px;background:rgba(56,189,248,0.04);border:var(--border-thin) solid rgba(56,189,248,0.12);border-radius:var(--radius-md);transition:all var(--duration-normal);cursor:default;position:relative}
+.stage-dot:hover{background:rgba(56,189,248,0.10);border-color:rgba(56,189,248,0.30);transform:translateY(-1px)}
+.stage-circle{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,rgba(56,189,248,0.20),rgba(56,189,248,0.08));border:var(--border-thin) solid rgba(56,189,248,0.40);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#7dd3fc;flex-shrink:0}
+.stage-dot-label{font-size:11px;color:rgba(255,255,255,0.70);line-height:1.3;font-weight:500}
+.stage-arrow{display:flex;align-items:center;justify-content:center;color:rgba(56,189,248,0.35);font-size:14px;padding:0 2px}
+.stage-arrow-down{grid-column:1/-1;display:flex;justify-content:center;color:rgba(56,189,248,0.35);font-size:14px;padding:2px 0}
 
-/* Sample Results */
-.hero-samples{max-width:900px;width:100%;margin:0 auto var(--space-8);padding:0 var(--space-6)}
-.hero-samples h2{font-size:18px;font-weight:700;text-align:center;margin-bottom:var(--space-4);color:#e8d0a0}
-.sample-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--space-3)}
-.sample-card{background:rgba(210,170,90,0.04);border:var(--border-thin) solid rgba(210,170,90,0.12);border-radius:var(--radius-lg);padding:var(--space-4);cursor:pointer;transition:all var(--duration-normal);text-align:center}
-.sample-card:hover{background:rgba(210,170,90,0.09);transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,0.4),0 0 16px rgba(210,170,90,0.1)}
-.sample-icon{font-size:32px;margin-bottom:var(--space-2)}
-.sample-card h4{font-size:13px;font-weight:600;margin-bottom:var(--space-1);color:#e8d0a0}
-.sample-card p{font-size:11px;color:#a09080}
+/* Expandable section (shared) */
+.hero-expand{max-width:520px;width:100%;margin:0 auto var(--space-4);padding:0 var(--space-4);position:relative;z-index:1}
+.expand-btn{width:100%;display:flex;align-items:center;justify-content:space-between;padding:var(--space-3) var(--space-5);background:rgba(255,255,255,0.03);border:var(--border-thin) solid rgba(255,255,255,0.08);border-radius:var(--radius-md);cursor:pointer;transition:all var(--duration-normal);font-family:var(--font-ui)}
+.expand-btn:hover{background:rgba(56,189,248,0.05);border-color:rgba(56,189,248,0.2)}
+.expand-btn-text{font-size:14px;font-weight:600;color:rgba(255,255,255,0.75);display:flex;align-items:center;gap:var(--space-2)}
+.expand-btn-icon{font-size:18px;filter:grayscale(0.3)}
+.expand-chevron{font-size:12px;color:rgba(255,255,255,0.3);transition:transform var(--duration-normal) var(--ease-spring)}
+.expand-body{max-height:0;overflow:hidden;transition:max-height 0.5s var(--ease-spring);padding:0 var(--space-1)}
+.hero-expand.open .expand-chevron{transform:rotate(180deg)}
+.hero-expand.open .expand-body{max-height:600px}
+/* Sample section: cyan tint */
+#sampleExpand .expand-btn{background:rgba(6,182,212,0.04);border-color:rgba(6,182,212,0.12)}
+#sampleExpand.open .expand-btn{border-color:rgba(6,182,212,0.25);background:rgba(6,182,212,0.06)}
+#sampleExpand .expand-btn:hover{background:rgba(6,182,212,0.08);border-color:rgba(6,182,212,0.25)}
+/* Package section: violet tint */
+#pkgExpand .expand-btn{background:rgba(139,92,246,0.04);border-color:rgba(139,92,246,0.12)}
+#pkgExpand.open .expand-btn{border-color:rgba(139,92,246,0.25);background:rgba(139,92,246,0.06)}
+#pkgExpand .expand-btn:hover{background:rgba(139,92,246,0.08);border-color:rgba(139,92,246,0.25)}
 
-/* Package Cards */
-.hero-packages{max-width:900px;width:100%;margin:0 auto var(--space-12);padding:0 var(--space-6)}
-.hero-packages h2{font-size:18px;font-weight:700;text-align:center;margin-bottom:var(--space-4);color:#e8d0a0}
-.pkg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--space-3)}
-.pkg-card{background:rgba(210,170,90,0.04);border:var(--border-thin) solid rgba(210,170,90,0.12);border-radius:var(--radius-lg);padding:var(--space-5);cursor:pointer;transition:all var(--duration-normal);border-top:var(--border-thick) solid #d4a853}
-.pkg-card:hover{background:rgba(210,170,90,0.09);transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,0.4),0 0 16px rgba(210,170,90,0.1)}
-.pkg-card h4{font-size:14px;font-weight:600;margin-bottom:var(--space-2);color:#e8d0a0}
-.pkg-card p{font-size:12px;color:#b8a88a;margin-bottom:var(--space-3)}
-.pkg-card .pkg-skills{font-size:11px;color:#a09080}
+/* Sample Results (inside expand) */
+.sample-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:var(--space-2);padding:var(--space-3) 0}
+.sample-card{background:rgba(255,255,255,0.03);border:var(--border-thin) solid rgba(255,255,255,0.06);border-radius:var(--radius-md);padding:var(--space-3);cursor:pointer;transition:all var(--duration-normal);text-align:center}
+.sample-card:hover{background:rgba(6,182,212,0.06);border-color:rgba(6,182,212,0.2)}
+.sample-icon{font-size:24px;margin-bottom:var(--space-1)}
+.sample-card h4{font-size:12px;font-weight:600;color:rgba(255,255,255,0.75);margin-bottom:2px}
+.sample-card p{font-size:10px;color:rgba(255,255,255,0.35)}
+
+/* Package Cards (inside expand) */
+.pkg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--space-2);padding:var(--space-3) 0}
+.pkg-card{background:rgba(255,255,255,0.03);border:var(--border-thin) solid rgba(255,255,255,0.06);border-radius:var(--radius-md);padding:var(--space-4);cursor:pointer;transition:all var(--duration-normal);border-left:var(--border-thick) solid rgba(139,92,246,0.3)}
+.pkg-card:hover{background:rgba(139,92,246,0.05);border-left-color:#8b5cf6}
+.pkg-card h4{font-size:13px;font-weight:600;margin-bottom:var(--space-1);color:rgba(255,255,255,0.8)}
+.pkg-card p{font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:var(--space-2)}
+.pkg-card .pkg-skills{font-size:10px;color:rgba(139,92,246,0.5)}
 
 /* ===== DASHBOARD PAGE ===== */
-.dashboard-page{display:none;min-height:100vh}
+.dashboard-page{display:none}
 .dashboard-page.active{display:flex;flex-direction:column}
 .dash-main{flex:1;display:flex;max-width:1600px;width:100%;margin:0 auto;position:relative}
 
 /* Left Sidebar */
-.left-sidebar{width:0;overflow:hidden;transition:width var(--duration-slow) var(--ease-spring);background:var(--bg-raised);border-right:var(--border-thin) solid var(--border);position:sticky;top:45px;height:calc(100vh - 45px);z-index:15;flex-shrink:0}
+.left-sidebar{width:0;height:0;overflow:hidden;transition:width var(--duration-slow) var(--ease-spring);background:var(--bg-raised);border-right:var(--border-thin) solid var(--border);z-index:15;flex-shrink:0}
+.left-sidebar.open{height:calc(100vh - 45px);position:sticky;top:45px}
 .left-sidebar.open{width:280px}
 .left-sidebar-inner{width:280px;padding:var(--space-3);overflow-y:auto;height:100%}
 .left-sidebar-title{font-size:13px;font-weight:700;padding:var(--space-2) var(--space-3);display:flex;align-items:center;justify-content:space-between}
@@ -169,41 +234,43 @@ body{font-family:var(--font-ui);background:var(--bg-void);color:var(--text-prima
 .sb-mini-toggle::after{content:'';position:absolute;top:2px;left:2px;width:10px;height:10px;border-radius:50%;background:#fff;box-shadow:var(--shadow-sm);transition:transform var(--duration-normal) var(--ease-spring)}
 .sb-mini-toggle.on{background:var(--accent)}
 .sb-mini-toggle.on::after{transform:translateX(10px)}
+.sb-select-all{width:100%;padding:var(--space-1) var(--space-3);border-radius:var(--radius-sm);font-size:10px;font-weight:600;color:var(--accent);background:rgba(var(--accent-rgb),0.08);border:var(--border-thin) solid rgba(var(--accent-rgb),0.15);cursor:pointer;font-family:var(--font-ui);transition:all var(--duration-fast)}
+.sb-select-all:hover{background:rgba(var(--accent-rgb),0.18);border-color:rgba(var(--accent-rgb),0.30)}
+
 
 /* Content Area */
-.dash-content{flex:1;padding:var(--space-4) var(--space-6);min-width:0;overflow-y:auto}
+.dash-content{flex:1;padding:var(--space-4);min-width:0;overflow-y:auto;position:sticky;top:45px;align-self:flex-start;height:calc(100vh - 45px);max-width:560px;display:flex;flex-direction:column;gap:var(--space-3)}
 
-/* Right Sidebar */
-.right-sidebar{width:340px;flex-shrink:0;padding:var(--space-4);position:sticky;top:45px;height:calc(100vh - 45px);overflow-y:auto;border-left:var(--border-thin) solid var(--border)}
+/* Quick Stage Select */
+.quick-stage{background:rgba(255,255,255,0.03);border:var(--border-thin) solid var(--border);border-radius:var(--radius-lg);padding:var(--space-4);animation:fadeUp var(--duration-slow) var(--ease-spring)}
+.qs-header{font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:var(--space-3)}
+.qs-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:var(--space-2)}
+.qs-btn{padding:var(--space-3) var(--space-1);border-radius:var(--radius-md);border:var(--border-thin) solid rgba(255,255,255,0.08);cursor:pointer;text-align:center;transition:all var(--duration-normal) var(--ease-spring);background:rgba(255,255,255,0.03);position:relative;overflow:hidden}
+.qs-btn:hover{transform:translateY(-2px);border-color:rgba(255,255,255,0.15)}
+.qs-btn .qs-num{font-size:18px;font-weight:800;line-height:1}
+.qs-btn .qs-title{font-size:10px;font-weight:600;color:var(--text-secondary);margin-top:3px}
+.qs-btn .qs-count{font-size:9px;margin-top:2px;font-weight:700}
+.qs-btn.partial{border-width:2px}
+.qs-btn.full{border-width:2px;transform:scale(1.03)}
+.qs-info{font-size:10px;color:var(--text-muted);text-align:center;margin-bottom:var(--space-3)}
+.qs-packages{display:flex;align-items:center;gap:var(--space-2);flex-wrap:wrap}
+.qs-pkg-label{font-size:11px;font-weight:600;color:var(--text-muted);white-space:nowrap}
 
-/* Mode tabs */
-.mode-tabs{display:inline-flex;background:var(--surface-1);border-radius:var(--radius-md);padding:3px;margin-bottom:var(--space-4)}
-.mode-tab{padding:var(--space-2) var(--space-4);border-radius:calc(var(--radius-md) - 2px);font-size:13px;font-weight:500;color:var(--text-muted);cursor:pointer;transition:all var(--duration-normal) var(--ease-spring);border:none;background:none;white-space:nowrap;font-family:var(--font-ui)}
-.mode-tab:hover{color:var(--text-secondary)}
-.mode-tab.active{background:var(--surface-3);color:var(--accent);box-shadow:var(--shadow-sm)}
-.tab-content{display:none;animation:fadeUp var(--duration-slow) var(--ease-spring)}
-.tab-content.active{display:block}
+/* Selected Panel */
+.selected-panel{background:rgba(255,255,255,0.03);border:var(--border-thin) solid var(--border);border-radius:var(--radius-lg);padding:var(--space-4);flex:1;min-height:0;display:flex;flex-direction:column;animation:fadeUp var(--duration-slow) var(--ease-spring) 0.1s both}
+.sp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-3);font-size:13px;font-weight:600}
+.sp-header .count{background:rgba(var(--accent-rgb),0.15);color:var(--accent);padding:2px 10px;border-radius:var(--radius-full);font-size:12px;font-weight:700}
 
-/* Mode instructions */
-.mode-instructions{background:rgba(var(--accent-rgb),0.06);border:var(--border-thin) solid rgba(var(--accent-rgb),0.15);border-radius:var(--radius-md);padding:var(--space-3) var(--space-4);margin-bottom:var(--space-4);font-size:12px;color:var(--text-secondary);line-height:1.8}
-.mode-instructions strong{color:var(--accent)}
 
-/* Stats */
-.stats{display:flex;gap:var(--space-3);margin-bottom:var(--space-4);flex-wrap:wrap}
-.stat-card{background:var(--surface-1);border:var(--border-thin) solid var(--border);border-radius:var(--radius-md);padding:var(--space-3) var(--space-4);flex:1;min-width:100px;text-align:center}
-.stat-value{font-size:clamp(20px,3vw,28px);font-weight:700;color:var(--accent)}
-.stat-label{font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin-top:2px}
+/* Selection count badge */
+.rp-selected-header .count,.rp-header .count{background:rgba(var(--accent-rgb),0.15);color:var(--accent);padding:2px 10px;border-radius:var(--radius-full);font-size:12px;font-weight:700}
+.btn-clear{background:none;border:var(--border-thin) solid var(--border);border-radius:var(--radius-sm);padding:var(--space-1) var(--space-3);font-size:11px;color:var(--text-muted);cursor:pointer;font-family:var(--font-ui);transition:all var(--duration-fast)}
+.btn-clear:hover{border-color:var(--red);color:var(--red)}
 
-/* Workflow Progress Tracker */
-.wf-tracker{background:rgba(255,255,255,0.04);border:var(--border-thin) solid var(--border);border-radius:var(--radius-lg);padding:var(--space-4);margin-bottom:var(--space-4)}
-.wf-tracker h3{font-size:13px;font-weight:600;margin-bottom:var(--space-3)}
-.wf-progress-bar{height:6px;background:var(--surface-1);border-radius:var(--radius-full);overflow:hidden;margin-bottom:var(--space-3)}
-.wf-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--green));border-radius:var(--radius-full);transition:width 0.5s ease;width:0%}
-.wf-stages{display:flex;gap:2px;flex-wrap:wrap}
-.wf-stage-dot{flex:1;min-width:40px;text-align:center;padding:var(--space-2) var(--space-1);border-radius:var(--radius-sm);font-size:10px;font-weight:600;transition:all var(--duration-normal)}
-.wf-stage-dot.done{background:rgba(var(--green-rgb),0.15);color:var(--green)}
-.wf-stage-dot.active{background:rgba(var(--accent-rgb),0.15);color:var(--accent);animation:pulse-glow 2.5s ease infinite}
-.wf-stage-dot.pending{background:var(--surface-1);color:var(--text-muted)}
+/* Chat panel (main content) */
+.chat-panel-main{background:rgba(255,255,255,0.03);border:var(--border-thin) solid var(--border);border-radius:var(--radius-lg);padding:var(--space-4);margin-bottom:var(--space-4)}
+.chat-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-3)}
+.chat-header h3{font-size:14px;font-weight:600}
 
 /* Pipeline / Stage blocks */
 .pipeline{display:flex;flex-direction:column;gap:var(--space-4)}
@@ -257,19 +324,20 @@ body{font-family:var(--font-ui);background:var(--bg-void);color:var(--text-prima
 .search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:13px}
 
 /* Package btns */
-.package-btns{display:flex;flex-wrap:wrap;gap:var(--space-2);margin-bottom:var(--space-4)}
+.package-btns{display:flex;flex-wrap:wrap;gap:var(--space-2)}
 .package-btn{padding:var(--space-1) var(--space-3);border-radius:var(--radius-full);background:var(--surface-1);border:var(--border-thin) solid var(--border);color:var(--text-secondary);font-size:11px;font-weight:500;cursor:pointer;transition:all var(--duration-normal);font-family:var(--font-ui)}
-.package-btn:hover{background:var(--surface-2);border-color:var(--accent);color:var(--accent)}
-.package-btn.active{background:rgba(var(--accent-rgb),0.15);border-color:var(--accent);color:var(--accent)}
+.package-btn:hover{background:rgba(56,189,248,0.10);border-color:#38bdf8;color:#38bdf8}
+.package-btn.active{background:rgba(56,189,248,0.15);border-color:#38bdf8;color:#38bdf8}
 
 /* Right sidebar cards */
 .sidebar-card{background:rgba(255,255,255,0.04);border:var(--border-thin) solid var(--border);border-radius:var(--radius-lg);padding:var(--space-4);margin-bottom:var(--space-3)}
 .sidebar-title{font-size:13px;font-weight:700;margin-bottom:var(--space-3);display:flex;align-items:center;justify-content:space-between}
 .sidebar-title .count{background:rgba(var(--accent-rgb),0.15);color:var(--accent);padding:2px 8px;border-radius:var(--radius-full);font-size:11px}
-.selected-list{display:flex;flex-direction:column;gap:var(--space-2);min-height:40px}
+.selected-list{display:flex;flex-direction:column;gap:var(--space-2);min-height:40px;overflow-y:auto;flex:1}
 .selected-item{display:flex;align-items:center;gap:var(--space-2);padding:var(--space-2) var(--space-3);background:rgba(0,0,0,0.15);border-radius:var(--radius-sm);font-size:11px;cursor:grab;transition:all var(--duration-fast);border:var(--border-thin) solid transparent}
 .selected-item:hover{border-color:var(--border)}
 .selected-item .drag-handle{color:var(--text-secondary);font-size:12px;cursor:grab;flex-shrink:0}
+.selected-item .item-cat{font-size:9px;font-weight:600;text-transform:uppercase;flex-shrink:0}
 .selected-item .item-name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .selected-item .remove-btn{width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--text-muted);cursor:pointer;transition:all var(--duration-fast);flex-shrink:0;background:none;border:none}
 .selected-item .remove-btn:hover{background:rgba(var(--red-rgb),0.15);color:var(--red)}
@@ -312,25 +380,34 @@ body{font-family:var(--font-ui);background:var(--bg-void);color:var(--text-prima
 .toast{position:fixed;bottom:24px;right:24px;z-index:90;padding:var(--space-3) var(--space-5);border-radius:var(--radius-md);background:var(--bg-raised);backdrop-filter:blur(20px);border-left:var(--border-thick) solid var(--green);box-shadow:var(--shadow-lg);font-size:13px;display:none}
 .toast.show{display:block;animation:slideInRight 0.35s var(--ease-spring)}
 
-/* Device preview frame */
-.device-frame{width:100%;transition:all var(--duration-slow) var(--ease-spring)}
-.device-frame.phone{max-width:390px;margin:0 auto;border:var(--border-medium) solid var(--border);border-radius:var(--radius-xl);overflow:hidden}
-.device-frame.tablet{max-width:768px;margin:0 auto;border:var(--border-medium) solid var(--border);border-radius:var(--radius-xl);overflow:hidden}
+/* Device preview viewport */
+body.device-phone #heroPage,body.device-phone .dash-content{max-width:390px;margin-left:auto;margin-right:auto;border:var(--border-medium) solid rgba(255,255,255,0.15);border-radius:var(--radius-xl);overflow:hidden;transition:max-width 0.4s ease}
+body.device-tablet #heroPage,body.device-tablet .dash-content{max-width:768px;margin-left:auto;margin-right:auto;border:var(--border-medium) solid rgba(255,255,255,0.10);border-radius:var(--radius-xl);overflow:hidden;transition:max-width 0.4s ease}
+body.device-phone #heroPage,body.device-tablet #heroPage{min-height:auto}
+body.device-phone .hero-section,body.device-tablet .hero-section{padding:var(--space-6) var(--space-4) var(--space-4)}
+body.device-phone .hero-img{width:200px;height:200px}
+body.device-tablet .hero-img{width:260px;height:260px}
+body.device-phone .stage-timeline{grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;font-size:10px}
+body.device-phone .stage-dot{padding:6px 6px}
+body.device-phone .stage-dot-label{font-size:9px}
+body.device-phone .sample-grid,body.device-phone .pkg-grid{grid-template-columns:1fr}
 
 /* Responsive */
 @media(max-width:1200px){.right-sidebar{width:280px}.left-sidebar.open{width:240px}}
-@media(max-width:800px){.dash-main{flex-direction:column}.right-sidebar{width:100%;position:static;height:auto;border-left:none;border-top:var(--border-thin) solid var(--border)}.left-sidebar.open{width:100%}.stage-skills{grid-template-columns:1fr}.skill-grid{grid-template-columns:1fr}}
+@media(max-width:600px){.dash-main{flex-direction:column}.left-sidebar{height:0;position:static}.left-sidebar.open{width:100%;height:auto;position:static}.dash-content{position:static;height:auto;max-width:100%}.qs-grid{grid-template-columns:repeat(4,1fr)}.nav-coaching{order:10;width:100%;justify-content:flex-end;margin-top:var(--space-1)}}
 </style>
 </head>
 <body>
 
-<!-- ===== TOP NAV (always visible) ===== -->
-<nav class="topnav" id="topnav">
+<!-- ===== TOP NAV (dashboard only) ===== -->
+<nav class="topnav hidden" id="topnav">
   <div class="topnav-inner">
     <div class="nav-logo" onclick="goHome()">
       <div class="nav-logo-icon">V</div>
       <span>비전코칭</span>
     </div>
+    <button class="nav-home" onclick="goHome()" title="메인화면으로">&#127968; 홈</button>
+    <div class="nav-divider"></div>
     <div class="nav-group">
       <button class="nav-btn" onclick="toggleLeftSidebar()" id="sbToggleBtn" title="스킬 목록">&#9776; 스킬</button>
     </div>
@@ -341,15 +418,20 @@ body{font-family:var(--font-ui);background:var(--bg-void);color:var(--text-prima
       <button class="nav-btn" onclick="changeZoom(1)" title="확대">A+</button>
     </div>
     <div class="nav-divider"></div>
-    <div class="nav-group">
-      <button class="nav-btn" data-device="desktop" onclick="setDevice('desktop')" title="데스크톱">&#128421;</button>
-      <button class="nav-btn" data-device="tablet" onclick="setDevice('tablet')" title="태블릿">&#128195;</button>
-      <button class="nav-btn" data-device="phone" onclick="setDevice('phone')" title="핸드폰">&#128241;</button>
+    <div class="device-toggle" id="deviceToggle">
+      <button class="dt-btn active" data-device="desktop" onclick="setDevice('desktop')" title="Desktop"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></button>
+      <button class="dt-btn" data-device="tablet" onclick="setDevice('tablet')" title="Tablet"><svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg></button>
+      <button class="dt-btn" data-device="phone" onclick="setDevice('phone')" title="Phone"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg></button>
     </div>
     <div class="nav-divider"></div>
     <div class="nav-group">
       <div class="api-status" id="apiStatusDot" title="API 연결 상태"></div>
       <button class="nav-btn" onclick="showApiModal()" title="API 키 설정">&#128273; API</button>
+    </div>
+    <div class="nav-divider"></div>
+    <div class="nav-coaching" id="navCoaching">
+      <span class="nav-badge" id="navBadge">0개</span>
+      <button class="nav-start-btn" id="navStartBtn" disabled onclick="startCoaching()">&#128640; 코칭 시작</button>
     </div>
   </div>
 </nav>
@@ -357,78 +439,30 @@ body{font-family:var(--font-ui);background:var(--bg-void);color:var(--text-prima
 <!-- ===== HERO PAGE ===== -->
 <div class="hero-page" id="heroPage">
   <div class="hero-section">
-    <img src="%EC%B5%9C%EC%9C%A4%EC%8B%9D(%EB%AF%B8%EB%8B%88%EB%AF%B8).png" alt="최윤식 박사 미니미" class="hero-img" onerror="this.style.display='none'">
-    <h1 class="hero-title">비전, 그 깊은 데로 가라</h1>
-    <p class="hero-subtitle">최윤식 박사 미래준비학교 — AI 비전코칭 시스템<br>65개 스킬 | 8단계 여정 | 맞춤형 코칭</p>
+    <div class="hero-badge">AI Vision Coaching System</div>
+    <h1 class="hero-title"><em>비전</em><span class="comma">,</span> 그 깊은 데로 가라<span class="hero-title-line">Go Deep Into Your Vision</span></h1>
+    <p class="hero-subtitle">최윤식 박사 『미래준비학교』 기반<br>65개 스킬 &middot; 8단계 여정 &middot; 1:1 AI 코칭</p>
     <div class="hero-cta">
       <button class="btn-hero primary" onclick="startDashboard('workflow')">8단계 워크플로우 시작</button>
       <button class="btn-hero secondary" onclick="startDashboard('free')">자유 선택으로 시작</button>
     </div>
-  </div>
-
-  <!-- API Key Card -->
-  <div class="api-card">
-    <h3>&#128273; Claude API 키 설정</h3>
-    <p>AI 코칭을 사용하려면 Claude API 키가 필요합니다. 키를 입력하면 스킬을 바로 실행할 수 있습니다.</p>
-    <div class="api-input-row">
-      <input type="password" class="api-input" id="heroApiInput" placeholder="sk-ant-api03-...">
-      <button class="api-save-btn" onclick="saveApiKey('heroApiInput')">저장</button>
+    <div class="hero-img-wrap">
+      <img src="%EC%B5%9C%EC%9C%A4%EC%8B%9D(%EB%AF%B8%EB%8B%88%EB%AF%B8)-2.png" alt="최윤식 박사" class="hero-img" onerror="this.parentElement.style.display='none'">
     </div>
-    <button class="api-help-btn" onclick="showApiHelpModal()">API 키 발급 방법 안내 &rarr;</button>
-  </div>
 
-  <!-- 8-Stage Preview -->
-  <div class="hero-stages">
-    <h2>8단계 비전코칭 여정</h2>
-    <div class="stage-timeline" id="stageTimeline"></div>
-  </div>
-
-  <!-- Sample Results -->
-  <div class="hero-samples">
-    <h2>비전코칭 완료 시 결과물 샘플</h2>
-    <div class="sample-grid">
-      <div class="sample-card" onclick="showSampleModal('vision')">
-        <div class="sample-icon">&#127919;</div>
-        <h4>비전선언문</h4>
-        <p>나의 비전을 한 문장으로</p>
-      </div>
-      <div class="sample-card" onclick="showSampleModal('map')">
-        <div class="sample-icon">&#128506;</div>
-        <h4>미래지도</h4>
-        <p>시간축 미래 예측 시각화</p>
-      </div>
-      <div class="sample-card" onclick="showSampleModal('strategy')">
-        <div class="sample-icon">&#128200;</div>
-        <h4>전략 계획</h4>
-        <p>목표·전략·행동 로드맵</p>
-      </div>
-      <div class="sample-card" onclick="showSampleModal('smart')">
-        <div class="sample-icon">&#9989;</div>
-        <h4>SMART 목표</h4>
-        <p>측정 가능한 실행 목표</p>
-      </div>
+    <!-- API Key (compact one-line) -->
+    <div class="hero-api-compact">
+      <span class="hero-api-label">&#128273; API 키</span>
+      <input type="password" class="hero-api-input" id="heroApiInput" placeholder="sk-ant-api03-...">
+      <button class="hero-api-save" onclick="saveApiKey('heroApiInput')">저장</button>
+      <button class="hero-api-help" onclick="showApiHelpModal()">?</button>
     </div>
-  </div>
 
-  <!-- Package Cards -->
-  <div class="hero-packages">
-    <h2>사용자 유형별 추천 패키지</h2>
-    <div class="pkg-grid">
-      <div class="pkg-card" onclick="startWithPackage('young')">
-        <h4>&#129489; 청년 압축 패키지</h4>
-        <p>8단계 핵심만 압축. 비전 발견부터 첫 목표까지.</p>
-        <div class="pkg-skills">10개 스킬 | 약 2~3시간</div>
-      </div>
-      <div class="pkg-card" onclick="startWithPackage('mid')">
-        <h4>&#128188; 중년 직업 전환 패키지</h4>
-        <p>진단 6종 + 재정 전략 + 커리어 추천 포함.</p>
-        <div class="pkg-skills">13개 스킬 | 약 3~4시간</div>
-      </div>
-      <div class="pkg-card" onclick="startWithPackage('retire')">
-        <h4>&#128148; 은퇴기 사역 발견 패키지</h4>
-        <p>가치 중심 비전 발견 + 실행 습관 정착.</p>
-        <div class="pkg-skills">9개 스킬 | 약 2시간</div>
-      </div>
+    <!-- Quick links -->
+    <div class="hero-links">
+      <button class="hero-link-btn" onclick="showTimelineModal()">&#128203; 8단계 여정 보기</button>
+      <span class="hero-link-dot">&middot;</span>
+      <button class="hero-link-btn" onclick="showSamplesModal()">&#127919; 결과물 샘플 보기</button>
     </div>
   </div>
 </div>
@@ -440,103 +474,45 @@ body{font-family:var(--font-ui);background:var(--bg-void);color:var(--text-prima
     <aside class="left-sidebar" id="leftSidebar">
       <div class="left-sidebar-inner">
         <div class="left-sidebar-title">
-          <span>&#128218; 스킬 목록 (65)</span>
+          <span>&#128218; 개별 스킬 선택 (65개)</span>
           <button class="close-sb" onclick="toggleLeftSidebar()">&#10005;</button>
         </div>
         <div id="sbSkillList"></div>
       </div>
     </aside>
 
-    <!-- Content -->
+    <!-- Main content area -->
     <div class="dash-content">
-      <div class="stats">
-        <div class="stat-card"><div class="stat-value">32</div><div class="stat-label">Master</div></div>
-        <div class="stat-card"><div class="stat-value">33</div><div class="stat-label">Sub</div></div>
-        <div class="stat-card"><div class="stat-value">8</div><div class="stat-label">Stages</div></div>
-        <div class="stat-card"><div class="stat-value" id="selectedCount">0</div><div class="stat-label">Selected</div></div>
-      </div>
-
-      <!-- Workflow Progress Tracker -->
-      <div class="wf-tracker" id="wfTracker" style="display:none">
-        <h3>&#128640; 워크플로우 진행 현황</h3>
-        <div class="wf-progress-bar"><div class="wf-progress-fill" id="wfProgressFill"></div></div>
-        <div class="wf-stages" id="wfStages"></div>
-      </div>
-
-      <!-- Mode Tabs -->
-      <div class="mode-tabs" role="tablist">
-        <button class="mode-tab active" data-mode="workflow" role="tab">8단계 워크플로우</button>
-        <button class="mode-tab" data-mode="free" role="tab">자유 선택</button>
-        <button class="mode-tab" data-mode="single" role="tab">단일 실행</button>
-      </div>
-
-      <!-- Workflow -->
-      <div class="tab-content active" id="tab-workflow">
-        <div class="mode-instructions">
-          <strong>8단계 워크플로우 사용법:</strong> 박사님 미래준비학교 8단계를 순서대로 진행합니다.<br>
-          1) 아래 패키지를 선택하거나 각 단계를 펼쳐 스킬을 선택하세요.<br>
-          2) 선택 완료 후 우측 "코칭 시작" 버튼을 누르면 AI가 순서대로 코칭합니다.<br>
-          3) 상단 진행 현황에서 현재 위치를 실시간으로 확인할 수 있습니다.
-        </div>
-        <div class="package-btns">
+      <!-- 8-Stage Quick Select -->
+      <div class="quick-stage" id="quickStageArea">
+        <div class="qs-header">&#9889; 8단계 빠른 선택</div>
+        <div class="qs-grid" id="qsGrid"></div>
+        <div class="qs-info">단계 버튼 클릭 = 해당 스킬 묶음 자동 선택/해제</div>
+        <div class="qs-packages">
+          <span class="qs-pkg-label">추천 패키지</span>
           <button class="package-btn" data-package="full">전체 8단계</button>
           <button class="package-btn" data-package="young">청년 압축</button>
           <button class="package-btn" data-package="mid">중년 전환</button>
           <button class="package-btn" data-package="retire">은퇴 사역</button>
         </div>
-        <div class="pipeline" id="pipeline"></div>
       </div>
 
-      <!-- Free Select -->
-      <div class="tab-content" id="tab-free">
-        <div class="mode-instructions">
-          <strong>자유 선택 사용법:</strong> 원하는 스킬을 자유롭게 선택합니다.<br>
-          1) 검색하거나 카테고리별로 스킬을 찾아 클릭하세요. 2개, 3개, 5개 등 원하는 만큼 선택 가능합니다.<br>
-          2) 우측 "내 선택"에서 드래그로 순서를 변경할 수 있습니다.<br>
-          3) "코칭 시작"을 누르면 선택한 순서대로 AI 코칭이 시작됩니다.
-        </div>
-        <div class="search-wrap">
-          <input type="text" class="search-bar" id="searchInput" placeholder="스킬 검색 (이름, 설명, 카테고리...)">
-          <span class="search-icon">&#128269;</span>
-        </div>
-        <div id="freeGrid"></div>
-      </div>
-
-      <!-- Single -->
-      <div class="tab-content" id="tab-single">
-        <div class="mode-instructions">
-          <strong>단일 실행 사용법:</strong> 스킬 하나를 선택하면 바로 AI 코칭이 시작됩니다.<br>
-          특정 진단이나 도구만 빠르게 사용하고 싶을 때 활용하세요.
-        </div>
-        <div class="search-wrap">
-          <input type="text" class="search-bar" id="singleSearch" placeholder="실행할 스킬 검색...">
-          <span class="search-icon">&#128269;</span>
-        </div>
-        <div class="skill-grid" id="singleGrid"></div>
-      </div>
-    </div>
-
-    <!-- Right Sidebar -->
-    <aside class="right-sidebar">
-      <!-- Selection panel -->
-      <div class="sidebar-card" id="selectionPanel">
-        <div class="sidebar-title">
-          <span>&#9997; 내 선택</span>
-          <span class="count" id="sidebarCount">0</span>
+      <!-- Selected Skills List -->
+      <div class="selected-panel" id="selectedPanel">
+        <div class="sp-header">
+          <span>&#128203; 선택된 스킬 <span class="count" id="selectedCount">0</span></span>
+          <button class="btn-clear" onclick="clearSelection()">초기화</button>
         </div>
         <div class="selected-list" id="selectedList">
-          <div class="empty-state">스킬을 선택하면 여기에 표시됩니다</div>
+          <div class="empty-state">왼쪽 사이드바 또는 위 단계 버튼으로 스킬을 선택하세요</div>
         </div>
-        <hr class="divider">
-        <button class="btn-primary" id="startCoachingBtn" disabled onclick="startCoaching()">&#128640; 코칭 시작</button>
-        <button class="btn-secondary" id="clearBtn" onclick="clearSelection()">선택 초기화</button>
       </div>
 
       <!-- Chat panel -->
-      <div class="sidebar-card chat-panel" id="chatPanel">
-        <div class="sidebar-title">
-          <span>&#128172; AI 코칭</span>
-          <button class="nav-btn" onclick="closeChat()" style="font-size:14px">&#10005;</button>
+      <div class="chat-panel-main" id="chatPanelMain" style="display:none">
+        <div class="chat-header">
+          <h3>&#128172; AI 코칭</h3>
+          <button class="btn-clear" onclick="closeChat()">&#10005; 닫기</button>
         </div>
         <div class="chat-messages" id="chatMessages"></div>
         <div class="chat-input-row">
@@ -544,21 +520,49 @@ body{font-family:var(--font-ui);background:var(--bg-void);color:var(--text-prima
           <button class="chat-send" id="chatSendBtn" onclick="sendChat()">&#9654;</button>
         </div>
       </div>
+    </div>
 
-      <!-- History -->
-      <div class="sidebar-card">
-        <div class="sidebar-title">
-          <span>&#128203; 저장된 기록</span>
-        </div>
-        <div class="history-list" id="historyList">
-          <div class="empty-state">아직 저장된 기록이 없습니다</div>
-        </div>
-      </div>
-    </aside>
+    <!-- Right sidebar removed — chat and actions are now in main content -->
   </div>
 </div>
 
 <!-- ===== MODALS ===== -->
+<div class="modal-backdrop" id="timelineModal">
+  <div class="modal-content" style="position:relative;max-width:700px">
+    <button class="modal-close" onclick="closeModal('timelineModal')">&#10005;</button>
+    <h3 style="margin-bottom:var(--space-4)">&#128203; 8단계 비전코칭 여정</h3>
+    <div class="stage-timeline" id="stageTimeline"></div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="samplesModal">
+  <div class="modal-content" style="position:relative;max-width:640px">
+    <button class="modal-close" onclick="closeModal('samplesModal')">&#10005;</button>
+    <h3 style="margin-bottom:var(--space-4)">&#127919; 비전코칭 완료 시 결과물 샘플</h3>
+    <div class="sample-grid">
+      <div class="sample-card" onclick="closeModal('samplesModal');showSampleModal('vision')">
+        <div class="sample-icon">&#127919;</div>
+        <h4>비전선언문</h4>
+        <p>나의 비전을 한 문장으로</p>
+      </div>
+      <div class="sample-card" onclick="closeModal('samplesModal');showSampleModal('map')">
+        <div class="sample-icon">&#128506;</div>
+        <h4>미래지도</h4>
+        <p>시간축 미래 예측 시각화</p>
+      </div>
+      <div class="sample-card" onclick="closeModal('samplesModal');showSampleModal('strategy')">
+        <div class="sample-icon">&#128200;</div>
+        <h4>전략 계획</h4>
+        <p>목표·전략·행동 로드맵</p>
+      </div>
+      <div class="sample-card" onclick="closeModal('samplesModal');showSampleModal('smart')">
+        <div class="sample-icon">&#9989;</div>
+        <h4>SMART 목표</h4>
+        <p>측정 가능한 실행 목표</p>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="modal-backdrop" id="apiHelpModal">
   <div class="modal-content" style="position:relative">
     <button class="modal-close" onclick="closeModal('apiHelpModal')">&#10005;</button>
@@ -658,27 +662,27 @@ let currentChatSkill=null;
 let wfCurrentStage=0;
 let wfStageStatus={}; // {stageNum: 'done'|'active'|'pending'}
 
+function hexToRgb(hex){const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);return `${r},${g},${b}`}
 function getSkill(id){return SKILLS.find(s=>s.id===id)}
 function getApiKey(){return localStorage.getItem('claude_api_key')||''}
 function setApiKey(k){localStorage.setItem('claude_api_key',k)}
 
 // ===== NAVIGATION =====
 function goHome(){
-  document.getElementById('heroPage').style.display='';
+  document.getElementById('heroPage').classList.remove('hidden');
   document.getElementById('dashboardPage').classList.remove('active');
+  document.getElementById('topnav').classList.add('hidden');
   currentPage='hero';
+  window.scrollTo(0,0);
 }
 function startDashboard(mode){
-  document.getElementById('heroPage').style.display='none';
+  document.getElementById('heroPage').classList.add('hidden');
   document.getElementById('dashboardPage').classList.add('active');
+  document.getElementById('topnav').classList.remove('hidden');
   currentPage='dashboard';
-  if(mode){
-    document.querySelectorAll('.mode-tab').forEach(t=>t.classList.remove('active'));
-    document.querySelector(`.mode-tab[data-mode="${mode}"]`).classList.add('active');
-    document.querySelectorAll('.tab-content').forEach(tc=>tc.classList.remove('active'));
-    document.getElementById('tab-'+mode).classList.add('active');
-    currentMode=mode;
-  }
+  window.scrollTo(0,0);
+  if(mode)currentMode=mode;
+  document.getElementById('leftSidebar').classList.add('open');
   refreshAll();
 }
 function startWithPackage(pkg){
@@ -686,6 +690,7 @@ function startWithPackage(pkg){
   startDashboard('workflow');
   document.querySelectorAll('.package-btn').forEach(b=>b.classList.toggle('active',b.dataset.package===pkg));
 }
+function renderSidebar(){renderSelectionSummary();}
 
 // ===== ZOOM =====
 function changeZoom(dir){
@@ -696,10 +701,12 @@ function changeZoom(dir){
 
 // ===== DEVICE PREVIEW =====
 function setDevice(d){
-  document.querySelectorAll('[data-device]').forEach(b=>b.classList.toggle('active',b.dataset.device===d));
+  document.querySelectorAll('.dt-btn').forEach(b=>b.classList.toggle('active',b.dataset.device===d));
+  document.body.classList.remove('device-phone','device-tablet');
+  if(d==='phone')document.body.classList.add('device-phone');
+  else if(d==='tablet')document.body.classList.add('device-tablet');
   const content=document.querySelector('.dash-content');
-  content.classList.remove('device-frame','phone','tablet');
-  if(d!=='desktop')content.classList.add('device-frame',d);
+  if(content){content.classList.remove('device-frame','phone','tablet');if(d!=='desktop')content.classList.add('device-frame',d);}
 }
 
 // ===== LEFT SIDEBAR =====
@@ -723,6 +730,8 @@ function showApiModal(){
   showApiHelpModal();
 }
 function showApiHelpModal(){document.getElementById('apiHelpModal').classList.add('show')}
+function showTimelineModal(){renderHeroTimeline();document.getElementById('timelineModal').classList.add('show')}
+function showSamplesModal(){document.getElementById('samplesModal').classList.add('show')}
 function closeModal(id){document.getElementById(id).classList.remove('show')}
 function showSampleModal(type){
   const d=SAMPLE_DATA[type];
@@ -735,88 +744,89 @@ function showSampleModal(type){
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500)}
 
 // ===== RENDER FUNCTIONS =====
-function renderSkillCard(sk,sel){
-  return `<div class="skill-card ${sel}" data-id="${sk.id}" style="--cat-color:${sk.catColor}" onclick="toggleSkill('${sk.id}')">
-    <div class="skill-check">${sel?'&#10003;':''}</div>
-    <div class="skill-name"><span class="skill-badge" style="background:rgba(${sk.catRgb},0.15);color:${sk.catColor}">${sk.cat}</span>${sk.name}</div>
-    <div class="skill-desc">${sk.desc}</div></div>`;
-}
-function renderForesightCard(sk,sel){
-  let h=`<div class="skill-card foresight-master ${sel}" data-id="${sk.id}" style="--cat-color:${sk.catColor}">
-    <div class="skill-check" onclick="event.stopPropagation();toggleSkill('${sk.id}')">${sel?'&#10003;':''}</div>
-    <div class="skill-name" onclick="toggleSkill('${sk.id}')"><span class="skill-badge" style="background:rgba(${sk.catRgb},0.15);color:${sk.catColor}">Foresight</span>${sk.name}</div>
-    <div class="skill-desc" onclick="toggleSkill('${sk.id}')">${sk.desc}</div>`;
-  if(sk.subs&&sk.subs.length>0){
-    h+=`<div class="foresight-toggle" onclick="event.stopPropagation();toggleForesightSubs(this)">&#9654; ${sk.subs.length}개 서브스킬</div><div class="foresight-subs">`;
-    sk.subs.forEach(sub=>{const s=selected.includes(sub.id)?'selected':'';h+=`<div class="sub-skill ${s}" onclick="event.stopPropagation();toggleSkill('${sub.id}')"><span style="color:var(--text-muted)">&#8627;</span>${sub.name}${s?'<span style="color:var(--accent);margin-left:auto">&#10003;</span>':''}</div>`;});
-    h+=`</div>`;}
-  return h+`</div>`;
-}
-function renderPipeline(){
-  const el=document.getElementById('pipeline');let h='';
-  [...STAGES,...CROSS_STAGE].forEach((stage,i)=>{
-    const isOpen=i<2?'open':'';
-    h+=`<div class="stage-block ${isOpen}"><div class="stage-header" onclick="toggleStage(this)"><div class="stage-num">${stage.num}</div><div class="stage-title"><h3>${stage.title}</h3><p>${stage.subtitle}</p></div><button class="stage-select-all" onclick="event.stopPropagation();selectStage('${stage.num}')">전체 선택</button><span class="stage-chevron">&#9660;</span></div><div class="stage-body"><div class="stage-skills">`;
-    stage.skills.forEach(sid=>{const sk=getSkill(sid);if(!sk)return;h+=renderSkillCard(sk,selected.includes(sid)?'selected':'');});
-    if(stage.foresight&&stage.foresight.length>0){h+=`<div style="grid-column:1/-1"><div class="foresight-note">&#128300; 미래학 보강</div></div>`;stage.foresight.forEach(fid=>{const sk=getSkill(fid);if(!sk)return;h+=renderForesightCard(sk,selected.includes(fid)?'selected':'');});}
-    h+=`</div></div></div>`;
-    if(i<STAGES.length-1)h+=`<div class="stage-connector"><div class="stage-connector-line"></div></div>`;
-  });el.innerHTML=h;
-}
-function renderFreeGrid(){
-  const el=document.getElementById('freeGrid');
-  const cats=["Diagnosis","Core Framework","Applied Toolkit","Prescription","Meta-Interview","Data Backbone","Foresight"];
-  const labels={"Diagnosis":"진단","Core Framework":"기축 도식","Applied Toolkit":"응용 도구","Prescription":"처방·실행","Meta-Interview":"메타 인터뷰","Data Backbone":"데이터 백본","Foresight":"미래학 도구"};
-  let h='';cats.forEach(cat=>{
-    const cs=SKILLS.filter(s=>s.cat===cat);if(!cs.length)return;
-    h+=`<div class="category-section" data-cat="${cat}"><div class="category-title"><span class="category-dot" style="background:${cs[0].catColor}"></span>${labels[cat]} (${cs.length})</div><div class="skill-grid">`;
-    cs.forEach(sk=>{h+=sk.isForesightMaster?renderForesightCard(sk,selected.includes(sk.id)?'selected':''):renderSkillCard(sk,selected.includes(sk.id)?'selected':'');});
-    h+=`</div></div>`;});el.innerHTML=h;
-}
-function renderSingleGrid(){
-  const el=document.getElementById('singleGrid');let h='';
-  SKILLS.forEach(sk=>{h+=`<div class="skill-card" data-id="${sk.id}" style="--cat-color:${sk.catColor}" onclick="executeSingle('${sk.id}')"><div class="skill-name"><span class="skill-badge" style="background:rgba(${sk.catRgb},0.15);color:${sk.catColor}">${sk.cat}</span>${sk.name}</div><div class="skill-desc">${sk.desc}</div></div>`;
-    if(sk.subs)sk.subs.forEach(sub=>{h+=`<div class="skill-card" data-id="${sub.id}" style="--cat-color:${sk.catColor}" onclick="executeSingle('${sub.id}')"><div class="skill-name"><span class="skill-badge" style="background:rgba(${sk.catRgb},0.15);color:${sk.catColor}">Sub</span>${sub.name}</div><div class="skill-desc">${sk.name}의 서브스킬</div></div>`;});
-  });el.innerHTML=h;
-}
-function renderSidebar(){
-  const list=document.getElementById('selectedList'),cnt=document.getElementById('sidebarCount'),stat=document.getElementById('selectedCount'),btn=document.getElementById('startCoachingBtn');
-  cnt.textContent=selected.length;stat.textContent=selected.length;btn.disabled=selected.length===0;
-  if(!selected.length){list.innerHTML='<div class="empty-state">스킬을 선택하면 여기에 표시됩니다</div>';return;}
-  let h='';selected.forEach((sid,i)=>{const sk=getSkill(sid);const nm=sk?sk.name:sid.replace(/vision-(foresight-)?/,'').replace(/-/g,' ');
-    h+=`<div class="selected-item" draggable="true" data-idx="${i}" data-id="${sid}"><span class="drag-handle">&#9776;</span><span class="item-name">${i+1}. ${nm}</span><button class="remove-btn" onclick="removeSkill('${sid}')">&#10005;</button></div>`;});
-  list.innerHTML=h;initDragDrop();
-}
 function renderSbSkillList(){
   const el=document.getElementById('sbSkillList');
-  const cats=["Diagnosis","Core Framework","Applied Toolkit","Prescription","Meta-Interview","Data Backbone","Foresight"];
-  const labels={"Diagnosis":"진단","Core Framework":"기축 도식","Applied Toolkit":"응용 도구","Prescription":"처방·실행","Meta-Interview":"메타 인터뷰","Data Backbone":"데이터 백본","Foresight":"미래학 도구"};
-  const colors={"Diagnosis":"var(--cat-diagnosis)","Core Framework":"var(--cat-core)","Applied Toolkit":"var(--cat-applied)","Prescription":"var(--cat-prescription)","Meta-Interview":"var(--cat-meta)","Data Backbone":"var(--cat-data)","Foresight":"var(--cat-foresight)"};
-  let h='';cats.forEach(cat=>{
-    const cs=SKILLS.filter(s=>s.cat===cat);if(!cs.length)return;
-    let tot=cs.length;cs.forEach(s=>{if(s.subs)tot+=s.subs.length;});
-    h+=`<div class="sb-cat-group" data-cat="${cat}"><div class="sb-cat-header" onclick="this.parentElement.classList.toggle('open')"><span class="sb-cat-dot" style="background:${colors[cat]}"></span><span class="sb-cat-name">${labels[cat]}</span><span class="sb-cat-count">${tot}</span><span class="sb-cat-chevron">&#9654;</span></div><div class="sb-cat-body">`;
-    cs.forEach(sk=>{const on=selected.includes(sk.id);
-      h+=`<div class="sb-skill-item ${on?'on':''}" onclick="toggleSkill('${sk.id}')"><span class="sb-toggle ${on?'on':''}"></span><span class="sb-skill-label">${sk.name}</span></div>`;
-      if(sk.subs&&sk.subs.length>0){const subId='sb-subs-'+sk.id;
-        h+=`<div class="sb-sub-toggle" onclick="event.stopPropagation();document.getElementById('${subId}').classList.toggle('open');this.textContent=document.getElementById('${subId}').classList.contains('open')?'&#9660; 접기':'&#9654; ${sk.subs.length}개 서브스킬'">&#9654; ${sk.subs.length}개 서브스킬</div><div class="sb-sub-list" id="${subId}">`;
-        sk.subs.forEach(sub=>{const sOn=selected.includes(sub.id);h+=`<div class="sb-sub-item ${sOn?'on':''}" onclick="event.stopPropagation();toggleSkill('${sub.id}')"><span class="sb-mini-toggle ${sOn?'on':''}"></span><span>${sub.name}</span></div>`;});
-        h+=`</div>`;}});
-    h+=`</div></div>`;});el.innerHTML=h;
+  const stageColors=['#6366f1','#8b5cf6','#ec4899','#f59e0b','#06b6d4','#3b82f6','#22c55e','#f97316'];
+  let h='';
+  // 8 stages in order
+  [...STAGES,...CROSS_STAGE].forEach((stage,si)=>{
+    const allSkills=[...stage.skills,...(stage.foresight||[])];
+    const selCount=allSkills.filter(id=>selected.includes(id)).length;
+    const color=si<8?stageColors[si]:'var(--text-muted)';
+    const isOpen=si<2?'open':'';
+    h+=`<div class="sb-cat-group ${isOpen}"><div class="sb-cat-header" onclick="this.parentElement.classList.toggle('open')"><span class="sb-cat-dot" style="background:${color}"></span><span class="sb-cat-name">${stage.num}단계 ${stage.title}</span><span class="sb-cat-count">${selCount}/${allSkills.length}</span><span class="sb-cat-chevron">&#9654;</span></div><div class="sb-cat-body">`;
+    h+=`<div style="padding:2px var(--space-3);font-size:10px;color:var(--text-muted);margin-bottom:4px">${stage.subtitle}</div>`;
+    // Core skills
+    stage.skills.forEach(sid=>{const sk=getSkill(sid);if(!sk)return;const on=selected.includes(sid);
+      h+=`<div class="sb-skill-item ${on?'on':''}" onclick="toggleSkill('${sid}')"><span class="sb-toggle ${on?'on':''}"></span><span class="sb-skill-label">${sk.name}</span></div>`;
+    });
+    // Foresight skills (if any)
+    if(stage.foresight&&stage.foresight.length>0){
+      h+=`<div style="padding:4px var(--space-3);font-size:10px;color:var(--cat-foresight);margin-top:4px">&#128300; 미래학 보강</div>`;
+      stage.foresight.forEach(fid=>{const sk=getSkill(fid);if(!sk)return;const on=selected.includes(fid);
+        h+=`<div class="sb-skill-item ${on?'on':''}" onclick="toggleSkill('${fid}')"><span class="sb-toggle ${on?'on':''}"></span><span class="sb-skill-label">${sk.name}</span></div>`;
+        if(sk.subs&&sk.subs.length>0){const subId='sb-subs-'+sk.id;
+          h+=`<div class="sb-sub-toggle" onclick="event.stopPropagation();document.getElementById('${subId}').classList.toggle('open');this.textContent=document.getElementById('${subId}').classList.contains('open')?'&#9660; 접기':'&#9654; ${sk.subs.length}개 서브스킬'">&#9654; ${sk.subs.length}개 서브스킬</div><div class="sb-sub-list" id="${subId}">`;
+          sk.subs.forEach(sub=>{const sOn=selected.includes(sub.id);h+=`<div class="sb-sub-item ${sOn?'on':''}" onclick="event.stopPropagation();toggleSkill('${sub.id}')"><span class="sb-mini-toggle ${sOn?'on':''}"></span><span>${sub.name}</span></div>`;});
+          h+=`</div>`;}
+      });
+    }
+    // Select all button
+    h+=`<div style="padding:4px var(--space-3);margin-top:4px"><button class="sb-select-all" onclick="event.stopPropagation();selectStage('${stage.num}')">이 단계 전체 선택</button></div>`;
+    h+=`</div></div>`;
+  });
+  el.innerHTML=h;
 }
-function renderWfTracker(){
-  const tracker=document.getElementById('wfTracker');
-  if(currentMode!=='workflow'||selected.length===0){tracker.style.display='none';return;}
-  tracker.style.display='';
-  const stagesEl=document.getElementById('wfStages');const fill=document.getElementById('wfProgressFill');
-  let done=0;let h='';
-  STAGES.forEach(s=>{const st=wfStageStatus[s.num]||'pending';if(st==='done')done++;
-    h+=`<div class="wf-stage-dot ${st}">${s.num}<br>${s.title}</div>`;});
-  stagesEl.innerHTML=h;fill.style.width=Math.round(done/STAGES.length*100)+'%';
+function renderQuickStageGrid(){
+  const el=document.getElementById('qsGrid');if(!el)return;let h='';
+  const colors=['#6366f1','#8b5cf6','#ec4899','#f59e0b','#06b6d4','#3b82f6','#22c55e','#f97316'];
+  STAGES.forEach((s,i)=>{
+    const stageSkills=[...s.skills,...(s.foresight||[])];
+    const selCount=stageSkills.filter(id=>selected.includes(id)).length;
+    const total=stageSkills.length;
+    const c=colors[i];
+    const state=selCount===0?'':selCount<total?'partial':'full';
+    const borderStyle=state==='full'?`border-color:${c};background:rgba(${hexToRgb(c)},0.15);box-shadow:0 0 20px rgba(${hexToRgb(c)},0.25)`:state==='partial'?`border-color:rgba(${hexToRgb(c)},0.5);background:rgba(${hexToRgb(c)},0.08)`:`border-color:rgba(${hexToRgb(c)},0.15);background:rgba(${hexToRgb(c)},0.04)`;
+    h+=`<div class="qs-btn ${state}" style="${borderStyle}" onclick="selectStage('${s.num}')">
+      <div class="qs-num" style="color:${c}">${s.num}</div>
+      <div class="qs-title">${s.title}</div>
+      ${selCount>0?`<div class="qs-count" style="color:${c}">${selCount}/${total}</div>`:''}
+    </div>`;
+  });
+  el.innerHTML=h;
+}
+function renderSelectionSummary(){
+  const el=document.getElementById('selectedList');
+  const cnt=document.getElementById('selectedCount');
+  cnt.textContent=selected.length;
+  if(!selected.length){el.innerHTML='<div class="empty-state">왼쪽 사이드바 또는 위 단계 버튼으로 스킬을 선택하세요</div>';return;}
+  let h='';
+  selected.forEach((id,i)=>{
+    const sk=getSkill(id);const name=sk?sk.name:id;const cat=sk?sk.cat:'';
+    h+=`<div class="selected-item" draggable="true" data-idx="${i}">
+      <span class="drag-handle">&#9776;</span>
+      <span class="item-cat" style="color:${sk?sk.catColor:'var(--text-muted)'}">${cat}</span>
+      <span class="item-name">${name}</span>
+      <button class="remove-btn" onclick="removeSkill('${id}')">&#10005;</button>
+    </div>`;
+  });
+  el.innerHTML=h;
+  initDragDrop();
 }
 function renderHeroTimeline(){
   const el=document.getElementById('stageTimeline');let h='';
-  STAGES.forEach(s=>{h+=`<div class="stage-dot"><div class="stage-circle">${s.num}</div><div class="stage-dot-label">${s.title}</div></div>`;});
+  // Row 1: stages 1-4 with arrows between
+  for(let i=0;i<4;i++){
+    h+=`<div class="stage-dot"><div class="stage-circle">${STAGES[i].num}</div><div class="stage-dot-label">${STAGES[i].title}</div></div>`;
+    if(i<3)h+=`<div class="stage-arrow">&#10140;</div>`;
+  }
+  // Down arrow row
+  h+=`<div class="stage-arrow-down">&#11015;</div>`;
+  // Row 2: stages 5→6→7→8 (left to right)
+  for(let i=4;i<8;i++){
+    h+=`<div class="stage-dot"><div class="stage-circle">${STAGES[i].num}</div><div class="stage-dot-label">${STAGES[i].title}</div></div>`;
+    if(i<7)h+=`<div class="stage-arrow">&#10140;</div>`;
+  }
   el.innerHTML=h;
 }
 function renderHistory(){
@@ -829,7 +839,15 @@ function renderHistory(){
   });el.innerHTML=h;
 }
 
-function refreshAll(){renderPipeline();renderFreeGrid();renderSingleGrid();renderSidebar();renderSbSkillList();renderWfTracker();renderHistory();}
+function updateNavCoaching(){
+  const badge=document.getElementById('navBadge');
+  const btn=document.getElementById('navStartBtn');
+  if(!badge||!btn)return;
+  badge.textContent=selected.length+'개';
+  badge.classList.toggle('has-skills',selected.length>0);
+  btn.disabled=selected.length===0;
+}
+function refreshAll(){renderQuickStageGrid();renderSelectionSummary();renderSbSkillList();updateNavCoaching();}
 
 // ===== ACTIONS =====
 function toggleSkill(id){const i=selected.indexOf(id);if(i>=0)selected.splice(i,1);else selected.push(id);refreshAll();}
@@ -840,13 +858,8 @@ function toggleStage(h){h.closest('.stage-block').classList.toggle('open')}
 function toggleForesightSubs(el){const m=el.closest('.foresight-master');m.classList.toggle('open');el.innerHTML=m.classList.contains('open')?'&#9660; 접기':`&#9654; ${m.querySelectorAll('.sub-skill').length}개 서브스킬`;}
 function clearSelection(){selected=[];document.querySelectorAll('.package-btn').forEach(b=>b.classList.remove('active'));refreshAll();}
 
-// ===== MODE TABS =====
-document.querySelectorAll('.mode-tab').forEach(tab=>{tab.addEventListener('click',()=>{document.querySelectorAll('.mode-tab').forEach(t=>t.classList.remove('active'));tab.classList.add('active');currentMode=tab.dataset.mode;document.querySelectorAll('.tab-content').forEach(tc=>tc.classList.remove('active'));document.getElementById('tab-'+currentMode).classList.add('active');renderWfTracker();});});
+// ===== PACKAGE BUTTONS =====
 document.querySelectorAll('.package-btn').forEach(btn=>{btn.addEventListener('click',()=>{document.querySelectorAll('.package-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');selected=[...PACKAGES[btn.dataset.package]];refreshAll();});});
-
-// ===== SEARCH =====
-document.getElementById('searchInput').addEventListener('input',e=>{const q=e.target.value.toLowerCase();document.querySelectorAll('#tab-free .skill-card').forEach(c=>{const id=c.dataset.id||'';const sk=getSkill(id);const t=(id+' '+(sk?sk.name+' '+sk.desc+' '+sk.cat:'')).toLowerCase();c.style.display=t.includes(q)?'':'none';});document.querySelectorAll('#tab-free .category-section').forEach(s=>{s.style.display=s.querySelectorAll('.skill-card:not([style*="display: none"])').length>0?'':'none';});});
-document.getElementById('singleSearch').addEventListener('input',e=>{const q=e.target.value.toLowerCase();document.querySelectorAll('#tab-single .skill-card').forEach(c=>{const id=c.dataset.id||'';const sk=getSkill(id);const t=(id+' '+(sk?sk.name+' '+sk.desc+' '+sk.cat:'')).toLowerCase();c.style.display=t.includes(q)?'':'none';});});
 
 // ===== DRAG & DROP =====
 function initDragDrop(){let src=null;document.querySelectorAll('.selected-item').forEach(item=>{item.addEventListener('dragstart',e=>{src=item;item.style.opacity='0.5';e.dataTransfer.effectAllowed='move';});item.addEventListener('dragend',()=>{item.style.opacity='1';});item.addEventListener('dragover',e=>{e.preventDefault();e.dataTransfer.dropEffect='move';});item.addEventListener('drop',e=>{e.preventDefault();if(src===item)return;const fi=parseInt(src.dataset.idx),ti=parseInt(item.dataset.idx);const[m]=selected.splice(fi,1);selected.splice(ti,0,m);refreshAll();});});}
@@ -855,25 +868,21 @@ function initDragDrop(){let src=null;document.querySelectorAll('.selected-item')
 function startCoaching(){
   if(!selected.length)return;
   if(!getApiKey()){showApiHelpModal();showToast('API 키를 먼저 입력해주세요');return;}
-  document.getElementById('selectionPanel').style.display='none';
-  document.getElementById('chatPanel').classList.add('active');
+  document.getElementById('quickStageArea').style.display='none';
+  document.getElementById('selectedPanel').style.display='none';
+  document.getElementById('chatPanelMain').style.display='';
   chatHistory=[];
   currentChatSkill=selected[0];
-  // Init workflow status
-  STAGES.forEach(s=>wfStageStatus[s.num]='pending');
-  if(currentMode==='workflow')wfStageStatus[STAGES[0].num]='active';
   wfCurrentStage=0;
-  renderWfTracker();
   const sk=getSkill(currentChatSkill);
   const name=sk?sk.name:currentChatSkill;
   addChatMsg('system',`${name} 코칭을 시작합니다. 아래에 메시지를 입력하세요.`);
-  // Auto-start first message
   sendToAPI(`/${currentChatSkill} 스킬을 시작합니다. 사용자에게 첫 질문을 해주세요.`,true);
 }
 function closeChat(){
-  document.getElementById('chatPanel').classList.remove('active');
-  document.getElementById('selectionPanel').style.display='';
-  // Save history
+  document.getElementById('chatPanelMain').style.display='none';
+  document.getElementById('quickStageArea').style.display='';
+  document.getElementById('selectedPanel').style.display='';
   saveToHistory();
 }
 function addChatMsg(role,text){
@@ -921,16 +930,12 @@ function saveToHistory(){
   history.unshift({name:sk?sk.name:currentChatSkill,date:new Date().toLocaleDateString('ko-KR'),messages:chatHistory,deleted:false});
   if(history.length>50)history.length=50;
   localStorage.setItem('vc_history',JSON.stringify(history));
-  renderHistory();
 }
-function deleteHistory(i){const h=JSON.parse(localStorage.getItem('vc_history')||'[]');h[i].deleted=true;localStorage.setItem('vc_history',JSON.stringify(h));renderHistory();}
-function restoreHistory(i){const h=JSON.parse(localStorage.getItem('vc_history')||'[]');h[i].deleted=false;localStorage.setItem('vc_history',JSON.stringify(h));renderHistory();}
 
 // ===== MODAL CLOSE ON BACKDROP CLICK =====
 document.querySelectorAll('.modal-backdrop').forEach(m=>{m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('show');});});
 
 // ===== INIT =====
-renderHeroTimeline();
 updateApiStatus();
 // Load saved API key into hero input
 const savedKey=getApiKey();
