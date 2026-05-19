@@ -15,8 +15,9 @@ skills/*/SKILL.md frontmatter를 스캔하여 README.md와 docs/SKILL_CATALOG.md
     <!-- /AUTO:BLOCK_NAME -->
 
 자동 갱신 블록:
-    README.md          : BADGE, STAGE_MAPPING
+    README.md          : BADGE, CATEGORY_TABLE, SKILL_INDEX
     SKILL_CATALOG.md   : TITLE_COUNT, CATEGORY_TABLE, SKILL_INDEX
+    (STAGE_MAPPING은 박사님이 직접 관리하는 *순서가 의미를 가지는 표* — 자동 갱신 제외)
 
 새 스킬 추가 절차:
     1) skills/<name>/SKILL.md 작성
@@ -65,6 +66,18 @@ CATEGORIES = {
         "stages_ko": "5·7·8단계",
         "order": 4,
     },
+    "meta": {
+        "label_ko": "메타 인터뷰 (Cross-stage)",
+        "label_en": "Meta-Interview",
+        "stages_ko": "전 단계",
+        "order": 5,
+    },
+    "data": {
+        "label_ko": "데이터 백본 (External API)",
+        "label_en": "Data Backbone",
+        "stages_ko": "1·3·7단계 보조",
+        "order": 6,
+    },
 }
 
 STAGE_TITLES = {
@@ -106,6 +119,8 @@ DEFAULT_META = {
     "vision-financial-coach": ("prescription", [7]),
     "vision-follow-through-habits": ("prescription", [8]),
     "vision-progress-review": ("prescription", [8]),
+    "vision-grill-with-docs": ("meta", []),
+    "vision-school-major-info": ("data", [1, 3, 7]),
 }
 
 
@@ -329,6 +344,8 @@ def main() -> int:
     # 자동 정렬로 손상되지 않도록 자동 갱신 대상에서 제외한다.
     readme_blocks = {
         "BADGE": render_badge(skills),
+        "CATEGORY_TABLE": render_category_table(skills),
+        "SKILL_INDEX": render_skill_index(skills),
     }
     catalog_blocks = {
         "TITLE_COUNT": render_title_count(skills),
